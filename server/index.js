@@ -1,6 +1,6 @@
 const express = require('express');
 const get = require('../helpers/github.js');
-const save = require('../database/index.js');
+const db = require('../database/index.js');
 let app = express();
 
 app.use(express.json());
@@ -12,14 +12,21 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
   get.getReposByUsername(req.body.name)
     .then((response) => {
-      console.log(save.save(response));
+      db.save(response);
       res.send('POST request to repos')
     })
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
   // This route should send back the top 25 repos
+  db.Repo.find({}).sort({ stargazers_count: -1 }).limit(25).exec((err, repos) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(repos);
+    }
+  })
+
 });
 
 let port = 1128;
