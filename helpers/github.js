@@ -17,7 +17,20 @@ let getReposByUsername = (username) => {
 
   return axios.get(options)
     .then((response) => {
-      return response;
+      var repoArray = [];
+
+      response.forEach((repo) => {
+        var repoObject = {
+          repoId: repo.id,
+          name: repo.name,
+          full_name: repo.full_name,
+          html_url: repo.owner.html_url,
+          stargazers_count: repo.stargazers_count
+        }
+        repoArray.push(repoObject);
+      })
+
+      return repoArray;
     });
 }
 
