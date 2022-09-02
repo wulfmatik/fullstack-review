@@ -8,6 +8,7 @@ let getReposByUsername = (username) => {
   // The options object has been provided to help you out,
   // but you'll have to fill in the URL
   let options = {
+    type: 'GET',
     url: 'https://api.github.com/users/' + username + '/repos',
     headers: {
       'User-Agent': 'request',
@@ -15,23 +16,25 @@ let getReposByUsername = (username) => {
     }
   };
 
-  return axios.get(options)
+  return axios(options)
     .then((response) => {
-      var repoArray = [];
+      var repos = [];
 
-      response.forEach((repo) => {
-        var repoObject = {
+      response.data.forEach((repo) => {
+        var cleanedRepo = {
           repoId: repo.id,
           name: repo.name,
           full_name: repo.full_name,
           html_url: repo.owner.html_url,
           stargazers_count: repo.stargazers_count
         }
-        repoArray.push(repoObject);
-      })
 
-      return repoArray;
-    });
+        repos.push(cleanedRepo);
+      });
+      return repos;
+    })
+    .catch((err) => { console.error(err) });
+
 }
 
 module.exports.getReposByUsername = getReposByUsername;

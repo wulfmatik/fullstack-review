@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
 mongoose.connect('mongodb://localhost/fetcher');
-
 
 let repoSchema = mongoose.Schema({
   repoId: { type: Number, unique: true },
@@ -13,7 +16,6 @@ let repoSchema = mongoose.Schema({
 let Repo = mongoose.model('Repo', repoSchema);
 
 let save = (repos) => {
-  // TODO: Your code here
   // This function should save a repo or repos to
   // the MongoDB
   repos.forEach((repoObj) => {
@@ -21,7 +23,7 @@ let save = (repos) => {
 
     newRepo.save((err, repoObj) => {
       if (err) { return err };
-      console.log(repoObj.name + 'saved to collection');
+      console.log(repoObj.name + ' saved to collection');
     });
   })
 }
