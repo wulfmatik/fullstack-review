@@ -33,7 +33,7 @@ let getReposByUsername = (username) => {
       });
       return repos;
     })
-    .catch((err) => { console.error(err) });
+    .catch((err) => { console.log(err) });
 
 }
 

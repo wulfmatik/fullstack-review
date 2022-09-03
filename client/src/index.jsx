@@ -10,6 +10,8 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.search = this.search.bind(this);
   }
 
   componentDidMount() {
@@ -26,7 +28,10 @@ class App extends React.Component {
       url: 'http://localhost:1128/repos',
       data: JSON.stringify({name: term}),
       contentType: "application/json; charset=utf-8",
-      success: console.log('success!')
+      success: $.ajax('http://localhost:1128/repos')
+      .then((response) => {
+        this.setState( {repos: response} );
+      })
     });
   }
 
