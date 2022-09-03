@@ -30,7 +30,9 @@ class App extends React.Component {
       contentType: "application/json; charset=utf-8",
       success: $.ajax('http://localhost:1128/repos')
       .then((response) => {
+        console.log(response);
         this.setState( {repos: response} );
+        console.log(`${term} was added`)
       })
     });
   }

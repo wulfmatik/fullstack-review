@@ -25,7 +25,7 @@ let getReposByUsername = (username) => {
           repoId: repo.id,
           name: repo.name,
           full_name: repo.full_name,
-          html_url: repo.owner.html_url,
+          html_url: repo.html_url,
           stargazers_count: repo.stargazers_count
         }
 
