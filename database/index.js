@@ -9,7 +9,7 @@ let repoSchema = mongoose.Schema({
   repoId: { type: Number, unique: true },
   name: String,
   full_name: String,
-  url: String,
+  html_url: String,
   stargazers_count: Number
 });
 
@@ -21,14 +21,15 @@ let save = (repos) => {
   if (repos.length > 0) {
     repos.forEach((repoObj) => {
       var newRepo = new Repo(repoObj);
-
-      newRepo.save(repoObj)
-      .then((data) => {
-        return data;
-      })
+      newRepo.save((err, result) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(result);
+        }
+      });
     })
   }
-
 }
 module.exports.Repo = Repo;
 module.exports.save = save;
