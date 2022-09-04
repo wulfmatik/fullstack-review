@@ -6,7 +6,7 @@ mongoose.set('useUnifiedTopology', true);
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  repoId: { type: Number, unique: true },
+  repoId: Number,
   name: String,
   full_name: String,
   html_url: String,
@@ -19,16 +19,16 @@ let save = (repos) => {
   // This function should save a repo or repos to
   // the MongoDB
   if (repos.length > 0) {
-    repos.forEach((repoObj) => {
+    let repoList = repos.map((repoObj) => {
       var newRepo = new Repo(repoObj);
-      newRepo.save((err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(result);
-        }
-      });
-    })
+      return newRepo.save()
+        .catch((err)=> {
+          if (err.code !== 11000) {
+            return err;
+          }
+        })
+    });
+    return Promise.all(repoList);
   }
 }
 module.exports.Repo = Repo;

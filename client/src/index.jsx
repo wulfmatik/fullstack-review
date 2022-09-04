@@ -28,12 +28,14 @@ class App extends React.Component {
       url: 'http://localhost:1128/repos',
       data: JSON.stringify({name: term}),
       contentType: "application/json; charset=utf-8",
-      success: $.ajax('http://localhost:1128/repos')
-      .then((response) => {
-        console.log(response);
-        this.setState( {repos: response} );
-        console.log(`${term} was added`)
-      })
+      success: ()=> {
+        $.ajax('http://localhost:1128/repos')
+         .then((response) => {
+          console.log(response);
+          this.setState( {repos: response} );
+          console.log(`${term} was added`)
+        })
+      }
     });
   }
 
